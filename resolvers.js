@@ -1,29 +1,21 @@
-let users = {
-    1: {
-      id: '1',
-      username: 'Olivia Graham',
-    },
-    2: {
-      id: '2',
-      username: 'Jack Swisher',
-    },
-  };
-  
-  const me = users[1];
-  
-  const resolvers = {
+const { User } = require('./models');
+
+const resolvers = {
     Query: {
-      users: () => {
-        return Object.values(users);
-      },
-      user: (parent, { id }) => {
-        return users[id];
-      },
-      me: (parent, args, { me }) => {
-        return me;
-      },
+        getUsers: async () => await User.find({}).exec(),
+        getUser: async (_, args) => await User.findOne(args).exec()
     },
-  };
+    Mutation: {
+        addUser: async (_, args) => {
+            try {
+                let response = await User.create(args);
+                return response;
+            } catch(e) {
+                return e.message;
+            }
+        }
+    }
+};
   
-  exports.resolvers = resolvers;
-  exports.me = me;
+exports.resolvers = resolvers;
+
