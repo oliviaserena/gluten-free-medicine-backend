@@ -1,22 +1,11 @@
 const cors = require('cors');
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
+const typeDefs = require('./schema');
 
 const app = express();
 
 app.use(cors());
-
-const schema = gql`
-  type Query {
-    users: [User!]
-    me: User
-    user(id: ID!): User
-  }
-  type User {
-    id: ID!
-    username: String!
-  }
-`;
 
 let users = {
   1: {
@@ -46,7 +35,7 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  typeDefs: schema,
+  typeDefs,
   resolvers,
   context: {
     me: users[1],
