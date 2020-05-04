@@ -5,6 +5,6 @@ by following the instructions at https://docs.mongodb.com/manual/tutorial/instal
 
 *In order to run the repo:*
 1. Run `npm install` within the project repo.
-2. Run 'node index.js' to get everything running.
+2. Run `node index.js` to get everything running.
 
 Test queries and mutations at `http://localhost:8000/graphql`.
