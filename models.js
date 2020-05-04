@@ -3,6 +3,8 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   username: String,
+  isMedicalProfessional: Boolean,
+  bio: String
 });
 
 const User = mongoose.model('user', userSchema); 
