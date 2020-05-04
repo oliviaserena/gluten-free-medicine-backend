@@ -8,7 +8,6 @@ const resolvers = {
     },
     Mutation: {
         addUser: async (_, args) => {
-            console.log(args)
             try {
                 let response = await User.create(args);
                 return response;
@@ -20,6 +19,7 @@ const resolvers = {
             try {
                 let response =  await User.findById(args.id);
                 response.isMedicalProfessional = args.isMedicalProfessional;
+                // Need to figure out how to partially update the DB
                 return response;
             } catch(e) {
                 return e.message;

@@ -3,6 +3,8 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   username: String,
+  firstname: String,
+  lastname: String,
   isMedicalProfessional: Boolean,
   bio: String
 });

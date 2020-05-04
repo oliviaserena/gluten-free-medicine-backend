@@ -9,12 +9,14 @@ const typeDefs = gql`
   type User {
     id: ID!
     username: String!
+    firstname: String,
+    lastname: String
     bio: String
     photoUrl: String
     isMedicalProfessional: Boolean!
   }
   type Mutation {
-    addUser(username: String!, bio: String, photoUrl: String,isMedicalProfessional: Boolean! ): User
+    addUser(username: String!, firstname: String!, lastname: String!, bio: String, photoUrl: String,isMedicalProfessional: Boolean! ): User
     updateMedicalQualifications(id: ID!, isMedicalProfessional: Boolean!): User
     updateUserBio(id: ID!, bio: String!): User
   }
