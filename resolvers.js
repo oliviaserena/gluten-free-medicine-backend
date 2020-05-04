@@ -16,23 +16,20 @@ const resolvers = {
             }
         },
         updateMedicalQualifications: async (_, args) => {
-            try {
-                let response =  await User.findById(args.id);
-                response.isMedicalProfessional = args.isMedicalProfessional;
-                // Need to figure out how to partially update the DB
-                return response;
-            } catch(e) {
-                return e.message;
-            }
+            var filter = { _id: args.id };
+            var update = { $set: {isMedicalProfessional: args.isMedicalProfessional} };
+            result = User.findOneAndUpdate(filter, update, function(err, res) {
+                if (err) throw err;
+              });
+            return result
         },
         updateUserBio: async (_, args) => {
-            try {
-                let response =  await User.findById(args.id);
-                response.bio = args.bio;
-                return response;
-            } catch(e) {
-                return e.message;
-            }
+            var filter = { _id: args.id };
+            var update = { $set: {bio: args.bio} };
+            result = User.findOneAndUpdate(filter, update, function(err, res) {
+                    if (err) throw err;
+                  });
+            return result
         }
     }
 };
