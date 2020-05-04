@@ -15,10 +15,23 @@ const typeDefs = gql`
     photoUrl: String
     isMedicalProfessional: Boolean!
   }
+  type Medication {
+    name: String!,
+    manufacturer: String!, 
+    photoUrl: String,
+    dosage: String,
+    approved: Boolean!
+  }
+  type Comment {
+    text: String!,
+    approved: Boolean!,
+    author: User!
+  }
   type Mutation {
     addUser(username: String!, firstname: String!, lastname: String!, bio: String, photoUrl: String,isMedicalProfessional: Boolean! ): User
-    updateMedicalQualifications(id: ID!, isMedicalProfessional: Boolean!): User
+    updateUserMedicalQualifications(id: ID!, isMedicalProfessional: Boolean!): User
     updateUserBio(id: ID!, bio: String!): User
+    addMedication( name: String!, manufacturer: String!, photoUrl: String, dosage: String, approved: Boolean!): Medication
   }
 `;
 

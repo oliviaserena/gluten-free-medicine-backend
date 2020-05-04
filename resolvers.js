@@ -1,4 +1,5 @@
-const { User } = require('./models');
+const { User } = require('./models/user');
+const { Medication } = require('./models/medications');
 
 const resolvers = {
     Query: {
@@ -15,7 +16,7 @@ const resolvers = {
                 return e.message;
             }
         },
-        updateMedicalQualifications: async (_, args) => {
+        updateUserMedicalQualifications: async (_, args) => {
             var filter = { _id: args.id };
             var update = { $set: {isMedicalProfessional: args.isMedicalProfessional} };
             result = User.findOneAndUpdate(filter, update, function(err, res) {
@@ -30,6 +31,14 @@ const resolvers = {
                     if (err) throw err;
                   });
             return result
+        },
+        addMedication: async (_, args) => {
+            try {
+                let response = await Medication.create(args);
+                return response;
+            } catch(e) {
+                return e.message;
+            }
         }
     }
 };
