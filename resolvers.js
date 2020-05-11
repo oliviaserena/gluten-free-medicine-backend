@@ -5,7 +5,8 @@ const resolvers = {
     Query: {
         getUsers: async () => await User.find({}).exec(),
         getUserbyName: async (_, args) => await User.findOne(args).exec(),
-        getUserbyId: async (_, args) => await User.findById(args.id)
+        getUserbyId: async (_, args) => await User.findById(args.id),
+        getMedications: async () => await Medication.find({}).exec()
     },
     Mutation: {
         addUser: async (_, args) => {
@@ -36,6 +37,18 @@ const resolvers = {
             try {
                 let response = await Medication.create(args);
                 return response;
+            } catch(e) {
+                return e.message;
+            }
+        },
+        addCommentToDrug: async (_, args) => {
+            try {
+                var filter = { _id: args.id };
+                var update = { $addToSet: {comments: {text: args.text, author_id: args.author_id}} };
+                result = Medication.findOneAndUpdate(filter, update, function(err, res) {
+                    if (err) throw err;
+                  });
+                return result
             } catch(e) {
                 return e.message;
             }
