@@ -4,8 +4,9 @@ const typeDefs = gql`
   type Query {
     getUserbyEmail(email: String!): User
     getUserbyId(id:ID): User
-    getUsers: [User!]
-    getMedications: [Medication!]
+    getUsers: [User]!
+    getMedications: [Medication]!
+    searchMedications(string: String!): [Medication]!
   }
   type User {
     id: ID!
