@@ -2,37 +2,44 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   type Query {
-    getUserbyName(username: String!): User
+    getUserbyEmail(email: String!): User
     getUserbyId(id:ID): User
     getUsers: [User!]
     getMedications: [Medication!]
   }
   type User {
     id: ID!
-    username: String!
-    firstname: String,
-    lastname: String
+    email: String!
+    password: String!
+    firstname: String!
+    lastname: String!
     bio: String
     photoUrl: String
     isMedicalProfessional: Boolean!
   }
   type Medication {
     id: ID!
-    name: String!,
-    manufacturer: String!, 
-    photoUrl: String,
-    dosage: String,
+    name: String!
+    manufacturer: String!
+    photoUrl: String
+    dosage: String
     approved: Boolean!
-    comments: [Comment]
+    statusNumber: Int
+    isSoyFree: Boolean
+    isLactoseFree: Boolean
+    containsPotatoStarch: Boolean
+    containsCornStarch: Boolean
+    comments: [Comment]!
   }
   type Comment {
     id: ID!,
     text: String!,
     approved: Boolean!,
-    author_id: String!
+    posted_by: User!
   }
   type Mutation {
-    addUser(username: String!, firstname: String!, lastname: String!, bio: String, photoUrl: String,isMedicalProfessional: Boolean! ): User
+    addUser(email: String!, firstname: String!, lastname: String!, bio: String, photoUrl: String,isMedicalProfessional: Boolean!, input_pass: String!): User
+    loginUser(email: String!, password: String!): Boolean
     updateUserMedicalQualifications(id: ID!, isMedicalProfessional: Boolean!): User
     updateUserBio(id: ID!, bio: String!): User
     addMedication( name: String!, manufacturer: String!, photoUrl: String, dosage: String, approved: Boolean!): Medication

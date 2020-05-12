@@ -4,18 +4,32 @@ const { Medication } = require('./models/medications');
 const resolvers = {
     Query: {
         getUsers: async () => await User.find({}).exec(),
-        getUserbyName: async (_, args) => await User.findOne(args).exec(),
+        getUserbyEmail: async (_, args) => await User.findOne(args).exec(),
         getUserbyId: async (_, args) => await User.findById(args.id),
         getMedications: async () => await Medication.find({}).exec()
     },
     Mutation: {
         addUser: async (_, args) => {
             try {
-                let response = await User.create(args);
-                return response;
+                let created_user = await User.create(args);
+                created_user.password = created_user.generateHash(args.input_pass);
+                created_user.save();
+                return created_user;
             } catch(e) {
                 return e.message;
             }
+        },
+        loginUser: async (_, args) => {
+            let correct_pass = false
+            await User.findOne({email: args.email}, function(err, user) { 
+                if (err) throw err;
+                else {
+                    if (user.validPassword(args.password)) {
+                        correct_pass = true;
+                    }   
+                }
+            });
+            return correct_pass;
         },
         updateUserMedicalQualifications: async (_, args) => {
             var filter = { _id: args.id };
