@@ -1,12 +1,13 @@
 const { User } = require('./models/user');
-const { Medication } = require('./models/medications');
+const { Medication, Comment } = require('./models/medications');
 
 const resolvers = {
     Query: {
         getUsers: async () => await User.find({}).exec(),
         getUserbyEmail: async (_, args) => await User.findOne(args).exec(),
         getUserbyId: async (_, args) => await User.findById(args.id),
-        getMedications: async () => await Medication.find({}).exec()
+        getMedications: async () => await Medication.find({}).exec(),
+        searchMedications:  async (_, args) => await Medication.find({"$text":{"$search": args.string}})
     },
     Mutation: {
         addUser: async (_, args) => {
@@ -57,8 +58,9 @@ const resolvers = {
         },
         addCommentToDrug: async (_, args) => {
             try {
+                let created_comment = await Comment.create({text: args.text, author_id: args.author_id});
                 var filter = { _id: args.id };
-                var update = { $addToSet: {comments: {text: args.text, author_id: args.author_id}} };
+                var update = { $addToSet: {comments: created_comment} };
                 result = Medication.findOneAndUpdate(filter, update, function(err, res) {
                     if (err) throw err;
                   });
