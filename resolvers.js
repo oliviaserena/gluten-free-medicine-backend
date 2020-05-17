@@ -1,17 +1,13 @@
 const { User } = require('./models/user');
-const { Medication } = require('./models/medications');
+const { Medication, Comment } = require('./models/medications');
 
 const resolvers = {
     Query: {
         getUsers: async () => await User.find({}).exec(),
         getUserbyEmail: async (_, args) => await User.findOne(args).exec(),
         getUserbyId: async (_, args) => await User.findById(args.id),
-<<<<<<< HEAD
-        getMedications: async () => await Medication.find({}).exec()
-=======
         getMedications: async () => await Medication.find({}).exec(),
         searchMedications:  async (_, args) => args.string ? await Medication.find({"$text":{"$search": args.string}}) : await Medication.find({})
->>>>>>> 5326cfc... Working towards associations
     },
     Mutation: {
         addUser: async (_, args) => {
@@ -73,6 +69,7 @@ const resolvers = {
                     });
                     return result
                 }
+
             } catch(e) {
                 return e.message;
             }

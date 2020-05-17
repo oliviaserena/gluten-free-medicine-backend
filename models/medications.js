@@ -14,11 +14,14 @@ const medicationSchema = new Schema({
   photoUrl: String,
   dosage: String,
   approved: Boolean,
-  comments: [commentSchema]
+  comments: [commentSchema],
+  fields: {type: [String], text: true}
 });
 
+const Comment = mongoose.model('comment', commentSchema); 
 const Medication = mongoose.model('medication', medicationSchema); 
 
 module.exports = {
-    Medication
+    Medication,
+    Comment
 };
