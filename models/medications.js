@@ -13,6 +13,7 @@ const medicationSchema = new Schema({
   manufacturer: String, 
   photoUrl: String,
   dosage: String,
+  statusNumber: Number,
   approved: Boolean,
   comments: [commentSchema],
   fields: {type: [String], text: true}

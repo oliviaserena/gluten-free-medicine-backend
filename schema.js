@@ -43,7 +43,7 @@ const typeDefs = gql`
     loginUser(email: String!, password: String!): Boolean
     updateUserMedicalQualifications(id: ID!, isMedicalProfessional: Boolean!): User
     updateUserBio(id: ID!, bio: String!): User
-    addMedication( name: String!, manufacturer: String!, photoUrl: String, dosage: String, approved: Boolean!): Medication
+    addMedication( name: String!, manufacturer: String!, photoUrl: String, dosage: String, approved: Boolean!, statusNumber: Int!): Medication
     addCommentToMedication(id: ID!, text: String!, author_id: ID!) : Medication
   }
 `;
