@@ -7,7 +7,7 @@ const resolvers = {
         getUserbyEmail: async (_, args) => await User.findOne(args).exec(),
         getUserbyId: async (_, args) => await User.findById(args.id),
         getMedications: async () => await Medication.find({}).exec(),
-        searchMedications:  async (_, args) => await Medication.find({"$text":{"$search": args.string}})
+        searchMedications:  async (_, args) => args.string ? await Medication.find({"$text":{"$search": args.string}}) : await Medication.find({})
     },
     Mutation: {
         addUser: async (_, args) => {
@@ -56,15 +56,20 @@ const resolvers = {
                 return e.message;
             }
         },
-        addCommentToDrug: async (_, args) => {
+        addCommentToMedication: async (_, args) => {
             try {
-                let created_comment = await Comment.create({text: args.text, author_id: args.author_id});
-                var filter = { _id: args.id };
-                var update = { $addToSet: {comments: created_comment} };
-                result = Medication.findOneAndUpdate(filter, update, function(err, res) {
-                    if (err) throw err;
-                  });
-                return result
+                let user = await User.findById(args.author_id);
+                let medication = await Medication.findById(args.id);
+                if (user && medication) {
+                    let created_comment = await Comment.create({text: args.text, author_id: args.author_id});
+                    var filter = { _id: args.id };
+                    var update = { $addToSet: {comments: created_comment} };
+                    result = Medication.findOneAndUpdate(filter, update, function(err, res) {
+                        if (err) throw err;
+                    });
+                    return result
+                }
+
             } catch(e) {
                 return e.message;
             }
