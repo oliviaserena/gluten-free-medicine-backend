@@ -15,6 +15,10 @@ const medicationSchema = new Schema({
   dosage: String,
   statusNumber: Number,
   approved: Boolean,
+  isSoyFree: Boolean,
+  isLactoseFree: Boolean,
+  containsPotatoStarch: Boolean,
+  containsCornStarch: Boolean,
   comments: [commentSchema],
   fields: {type: [String], text: true}
 });
