@@ -7,6 +7,7 @@ const resolvers = {
         getUserbyEmail: async (_, args) => await User.findOne(args).exec(),
         getUserbyId: async (_, args) => await User.findById(args.id),
         getMedications: async () => await Medication.find({}).exec(),
+        getMedicationbyId: async (_, args) => await Medication.findById(args.id),
         searchMedications:  async (_, args) => args.string ? await Medication.find({"$text":{"$search": args.string}}) : await Medication.find({})
     },
     Mutation: {
